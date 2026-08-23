@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmPulse · Smart Farming Decision Engine</title>
+    <meta name="description" content="FarmPulse - AI-powered agricultural decision engine for sustainable farming">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+                <div class="logo-text">
+                    <h1>FarmPulse</h1>
+                    <p>Smart Farming Decision Engine</p>
+                </div>
+            </div>
+            <div class="badge-demo">
+                <i class="fas fa-flask"></i> Live Demo
+                <span class="supabase-tag"><i class="fas fa-database"></i> Supabase</span>
+                <div id="authSection"></div>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="dashboard-grid">
+            <!-- Left: Farm Profile & Objective -->
+            <div class="card">
+                <div class="card-title">
+                    <h2><i class="fas fa-sliders-h"></i> Farm Profile & Objective</h2>
+                    <span class="live-badge">⚡ Farm DNA Active</span>
+                </div>
+
+                <!-- Farm Inputs -->
+                <label><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i>Location & Crop</label>
+                <div class="input-row">
+                    <div>
+                        <select id="cropSelect">
+                            <option value="rice" selected>🌾 Rice (Indica)</option>
+                            <option value="wheat">🌿 Wheat</option>
+                            <option value="maize">🌽 Maize</option>
+                            <option value="cotton">🌱 Cotton</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Region" value="Punjab, India" id="regionInput">
+                    </div>
+                </div>
+
+                <label><i class="fas fa-tint"></i> Soil & Water</label>
+                <div class="input-row">
+                    <div>
+                        <select id="soilType">
+                            <option value="loamy">Loamy (moderate)</option>
+                            <option value="clay">Clayey (heavy)</option>
+                            <option value="sandy">Sandy (light)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select id="waterAccess">
+                            <option value="irrigated" selected>Irrigated (canal+well)</option>
+                            <option value="rainfed">Rainfed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label><i class="fas fa-chart-line"></i> Constraint: Minimum Profit (₹)</label>
+                <input type="number" id="profitConstraint" value="45000" min="10000" step="1000">
+
+                <label><i class="fas fa-leaf"></i> Constraint: Regenerative Score ≥</label>
+                <input type="number" id="regenerativeConstraint" value="70" min="0" max="100" step="1">
+
+                <div class="btn-group">
+                    <button class="btn" id="generateScenariosBtn"><i class="fas fa-sync-alt"></i> Generate Strategies</button>
+                    <button class="btn-outline btn" id="negotiateBtn"><i class="fas fa-handshake"></i> AI Negotiate</button>
+                </div>
+
+                <!-- Farm DNA Profile -->
+                <div class="dna-card">
+                    <div class="dna-header">
+                        <span style="font-weight:600;"><i class="fas fa-dna"></i> Farm DNA</span>
+                        <span class="supabase-tag sync-tag"><i class="fas fa-cloud"></i> Live</span>
+                    </div>
+                    <div class="dna-indicators">
+                        <span class="dna-item"><i class="fas fa-water"></i> Water Dep. 76%</span>
+                        <span class="dna-item"><i class="fas fa-bolt"></i> Input Eff. 68%</span>
+                        <span class="dna-item"><i class="fas fa-temperature-low"></i> Climate Vuln. 42%</span>
+                        <span class="dna-item"><i class="fas fa-recycle"></i> Regen. 74</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Scenarios & Chat -->
+            <div class="card">
+                <div class="card-title">
+                    <h2><i class="fas fa-exchange-alt"></i> Trade-off Explorer</h2>
+                    <span class="score-tag live-badge">Live Strategies</span>
+                </div>
+
+                <!-- Scenario Cards -->
+                <div id="scenarioContainer" class="scenario-list"></div>
+
+                <!-- AI Chat / Negotiation -->
+                <div class="chat-wrapper">
+                    <div class="negotiation-chat-box" id="chatBox">
+                        <div class="ai-msg">
+                            <i class="fas fa-robot"></i>
+                            <div class="message-bubble">Hello! I'm FarmPulse AI. Set your constraints and I'll find the best farming strategies for you. 🌾</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-row">
+                        <input type="text" placeholder="Ask FarmPulse AI..." id="chatInput">
+                        <button class="btn-outline btn" id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footnote">
+            <i class="fas fa-info-circle"></i> FarmPulse estimates are for decision support only. Always consult local agricultural experts.
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000;">
+        <div style="background:white; max-width:420px; margin:100px auto; padding:2rem; border-radius:20px;">
+            <div style="text-align:center; margin-bottom:1.5rem;">
+                <i class="fas fa-leaf" style="font-size:3rem; color:#1e4d2b;"></i>
+                <h3 style="margin-top:1rem;">Welcome to FarmPulse</h3>
+                <p style="color:#666; font-size:0.9rem;">Sign in to access personalized farming insights</p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <button onclick="googleSignIn()" class="btn google-btn" style="background:#4285F4; border:#4285F4; justify-content:center;">
+                    <i class="fab fa-google"></i> Continue with Google
+                </button>
+                <div style="text-align:center; margin:10px 0; color:#888;">or</div>
+                <input type="email" id="loginEmail" placeholder="Email address" style="margin-bottom:8px;">
+                <input type="password" id="loginPassword" placeholder="Password" style="margin-bottom:8px;">
+                <button onclick="loginWithEmail()" class="btn" style="justify-content:center;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+                <div style="text-align:center; margin:8px 0; color:#888;">Don't have an account?</div>
+                <button onclick="showSignupForm()" class="btn-outline btn" style="justify-content:center;">Create Account</button>
+            </div>
+            <button onclick="closeAuthModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">×</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
