@@ -1,12 +1,12 @@
 // ============ FIREBASE CONFIGURATION ============
 // Replace with your Firebase config
 const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAuREBelY3XF_mzy_plW4c4Kio3zuZe7I0",
+  authDomain: "farmpulse9.firebaseapp.com",
+  projectId: "farmpulse9",
+  storageBucket: "farmpulse9.firebasestorage.app",
+  messagingSenderId: "44319403169",
+  appId: "1:44319403169:web:bbdb06bcf476847633d4e0"
 };
 
 // Initialize Firebase
@@ -15,9 +15,9 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ============ SUPABASE CONFIGURATION ============
-// Replace with your Supabase credentials
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+// Your actual Supabase credentials
+const supabaseUrl = 'https://ulbvvidcqarsohybgnuz.supabase.co';
+const supabaseAnonKey = 'sb_publishable_MCPMmAg-mjtO40PAYb9Q_5ky7fBge';
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 // ============ APP STATE ============
@@ -419,6 +419,7 @@ function generateAIResponse(text) {
 // ============ INITIALIZE ============
 document.addEventListener('DOMContentLoaded', function() {
     console.log('FarmPulse initializing...');
+    console.log('Supabase URL:', supabaseUrl);
     
     // Attach event listeners
     const generateBtn = document.getElementById('generateScenariosBtn');
